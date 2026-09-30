@@ -1,11 +1,13 @@
  
- import React, { createContext, useState } from 'react'
+ import React, { createContext, useEffect, useState } from 'react'
 import { toast } from 'sonner';
 
  export const WishlistContext = createContext();
  
  const WishlistProvider = ({children}) => {
-    const [wishlist, setWishlist] = useState([]);
+    const [wishlist, setWishlist] = useState(() => {
+     return JSON.parse(localStorage.getItem("wishlist")) || [];
+    });
     const handleWishlist = (product) => {
      const Alreadyadded =  wishlist.find((item) => {
        return item.id === product.id;
@@ -26,6 +28,9 @@ import { toast } from 'sonner';
      });
      setWishlist(RemoveProduct);
     }
+    useEffect(() => {
+      localStorage.setItem("wishlist" , JSON.stringify(wishlist))
+    } , [wishlist])
    return (
       <WishlistContext.Provider value={{wishlist , setWishlist , handleWishlist , RemovedItem}}>
         {children}

@@ -7,7 +7,7 @@ import { CartContext } from '../context/CartContext';
 import { WishlistContext } from '../context/WishlistContext';
 import { ThemeContext } from '../context/ThemeContext';
 import { useState } from 'react';
-import { Menu, MenuIcon } from "lucide-react";
+import { Menu, MenuIcon, Moon, Sun, X } from "lucide-react";
 
 const Navbar = () => {
   const [hamburger, sethamburger] = useState(false);
@@ -15,7 +15,7 @@ const Navbar = () => {
   const {wishlist , setWishlist} = useContext(WishlistContext);
   const {theme , handleTheme } = useContext(ThemeContext);
   return (
-     <div className='bg-white h-16 w-full dark:bg-black dark:border-2 dark:border-b-red-600 dark:text-white sticky top-0 left-0 z-100 flex justify-between items-center gap-4 text-black font-bold' id="Navbar-Container">
+     <div className='bg-white h-16 w-full mt-0 ml-0 dark:bg-black dark:border-b-2 dark:border-b-red-600 dark:text-white sticky top-0 left-0 z-50 flex justify-between items-center gap-4 text-black font-bold' id="Navbar-Container">
       <div className='flex justify-between ml-8 gap-4 items-center'>
         <div>
       <Link to={"/"}><h1 className='text-3xl font-black'><span className='text-red-600 font-black'>R</span>AJ</h1></Link>
@@ -25,8 +25,8 @@ const Navbar = () => {
          <Link className='text-2xl font-black' to = "/wishlist">❤️</Link>
           <span className='text-black dark:text-white font-black'>{wishlist.length}</span>
       </div>
-       <div className='mr-6 md:hidden'>
-          <MenuIcon onClick={() => {sethamburger(!hamburger)}} />
+       <div  className="flex items-center gap-4 mr-4 md:hidden">
+          { hamburger ? <X onClick={() => {sethamburger(!hamburger)}} /> : <MenuIcon onClick={() => {sethamburger(!hamburger)}} />  }
         </div>
      
 {
@@ -67,7 +67,7 @@ const Navbar = () => {
           <span className=" bg-red-600 text-white text-xs font-bold rounded-full min-w-5 h-5 px-1
               flex justify-center items-center ">{Cart.length}</span>
         </Link>
-        <button onClick={handleTheme} className="text-2xl hover:scale-110 transition" > {theme ? "❤️" : "🖤"}
+        <button onClick={handleTheme} className="text-2xl hover:scale-110 transition" > {theme ? <Sun /> : <Moon /> }
         </button>
       </ul>
   )
@@ -87,7 +87,7 @@ const Navbar = () => {
             <Link className='flex justify-center items-center' to={"/cart"}>
             <IoCartOutline className='font-black text-3xl cursor-pointer' /> <span className='relative bottom-3 left-1.2 bg-black text-white rounded-[50%] px-3 py-3 h-6 w-6 flex justify-center items-center'>{Cart.length}</span>
             </Link>
-              <button onClick={handleTheme} className='font-black text-2xl' >{theme ? "❤️" : "🖤"}</button>
+              <button onClick={handleTheme} className='font-black text-2xl pr-4' >{theme ? <Sun /> : <Moon />}</button>
         </ul>
       </nav>
      </div>

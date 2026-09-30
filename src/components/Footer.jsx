@@ -1,5 +1,8 @@
 
 import React from 'react'
+import { BsInstagram, BsTwitterX } from 'react-icons/bs'
+import { FaFacebook } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
 
 const Footer = () => {
   return (
@@ -16,10 +19,10 @@ const Footer = () => {
     <div>
       <h3 className="font-semibold text-lg mb-3">Quick Links</h3>
       <ul className="space-y-2 text-gray-400">
-        <li>Home</li>
-        <li>Products</li>
-        <li>About</li>
-        <li>Contact</li>
+        <Link to = "/" ><li>Home</li></Link>
+        <Link to = "/products" ><li>Products</li></Link>
+        <Link to = "/about" ><li>About</li></Link>
+        <Link to = "/contact" ><li>Contact</li></Link>
       </ul>
     </div>
 
@@ -36,9 +39,9 @@ const Footer = () => {
     <div>
       <h3 className="font-semibold text-lg mb-3">Follow Us</h3>
       <div className="flex gap-4 text-gray-400">
-        <span>Facebook</span>
-        <span>Instagram</span>
-        <span>Twitter</span>
+        <span> <FaFacebook /> </span>
+        <span> <BsInstagram /> </span>
+        <span> <BsTwitterX /> </span>
       </div>
     </div>
 

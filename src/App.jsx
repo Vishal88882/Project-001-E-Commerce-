@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
 import Products from './pages/Products'
@@ -11,13 +11,11 @@ import NotFound from './pages/NotFound'
 import ProductsDetails from './pages/ProductsDetails'
 import { Toaster } from 'sonner'
 import Wishlist from './pages/Wishlist'
-import { ThemeContext } from './context/ThemeContext'
 
 
 const App = () => {
-  const {theme} = useContext(ThemeContext);
   return (
-    <div className='bg-gray-200 min-h-screen w-screen text-red-500 dark:bg-black dark:text-white' id="Main-Container">
+    <div className='bg-gray-200  min-h-screen w-full mt-0 ml-0 text-red-500 dark:bg-black dark:text-white' id="Main-Container">
       <Navbar />
        <Toaster
         position="top-center"

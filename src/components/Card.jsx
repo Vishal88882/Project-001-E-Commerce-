@@ -18,7 +18,7 @@ const Card = ({
   const {wishlist , setWishlist , handleWishlist} = useContext(WishlistContext);
   const {theme} = useContext(ThemeContext);
   return (
-    <div className=" dark:bg-gradient-to-br from-[#111111] to-[#1a1025] dark:border-white/10 dark:border-2  group overflow-hidden rounded-2xl border border-zinc-800 shadow-lg transition duration-300 hover:-translate-y-1 hover:border-purple-600 hover:shadow-purple-900/30 bg-white text-black">
+    <div className=" dark:bg-gradient-to-br from-[#111111] h-82 to-[#1a1025] dark:border-white/10 dark:border-2  group overflow-hidden rounded-2xl border border-zinc-800 shadow-lg transition duration-300 hover:-translate-y-1 hover:border-purple-600 hover:shadow-purple-900/30 bg-white text-black">
 
       <div className="relative flex h-40 items-center justify-center dark:bg-gradient-to-br from-zinc-900 to-black">
         <span className="absolute left-3 top-3 rounded-full bg-purple-600 px-2.5 py-1 text-[10px] font-bold text-white"> NEW </span>

@@ -4,25 +4,39 @@ import { ThemeContext } from '../context/ThemeContext';
 import { data } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import Carousel from '../components/Carousel';
+import { ArrowLeftCircle } from 'lucide-react';
 
 const Home = () => {
+ const {handleCart} = useContext(CartContext);
+ const [loading, setLoading] = useState(false)
+const [error, setError] = useState("")
+const [array , setArray] = useState([]);
 
-  const { theme } = useContext(ThemeContext);
-  const [array, setArray] = useState([]);
-  const {handleCart} = useContext(CartContext);
+const apiHandler = async () => {
+  setLoading(true)
+  try {
+    const response = await fetch("https://dummyjson.com/products?limit=190")
 
-  const ApiHandler = async () => {
-    const Response = await fetch("https://dummyjson.com/products?limit=190");
-    const Data = await Response.json();
-    setArray(Data.products);
+    if (!response.ok) {
+      throw new Error("Something went wrong")
+    }
+
+    const data = await response.json()
+    setArray(data.products)
+
+  } catch (error) {
+    setError(error.message)
+
+  } finally {
+    setLoading(false)
   }
-
-  useEffect(() => {
-  ApiHandler();
-  }, [] );
+}
+useEffect(() => {
+  apiHandler();
+},[]);
   return (
-      <div className='min-h-[80vh] w-screen text-black dark:text-white' id="Home-Container">
-        
+      <div className='min-h-[80vh] w-full text-black dark:text-white' id="Home-Container">
      <div
   className="
     min-h-screen flex justify-center items-center flex-col md:flex-row flex-wrap py-8
@@ -40,7 +54,14 @@ const Home = () => {
   />
 </div>
     </div>
-
+     
+       {loading && <div className='w-full flex justify-center items-center text-red-600 min-h-screen font-black'>
+          <div className="w-12 h-12 border-4 border-purple-300 border-t-purple-600 rounded-full animate-spin"></div> </div> }
+{error && <div className='w-full flex justify-center items-center text-red-600 min-h-screen font-black'>  <span className="text-center text-red-500">{error}</span> </div>
+}
+    {
+      !loading && !error && <Carousel /> }
+      {  !loading && !error && <div>
          <div className=' min-h-[80vh] dark:bg-black text-black dark:text-white '>
                 <div>
                   <h1 className='text-center items-center pt-12 font-black text-4xl'>POPULAR TRENDING LAPTOPS</h1>
@@ -52,7 +73,7 @@ const Home = () => {
                       {
                         array.slice(78,82).map(({id , title , thumbnail , description , price , category , rating}) => {
                           return (
-                          <div className='bg-white flex flex-col items-center min-h-[250px] rounded-lg text-black font-sens font-bold'>
+                          <div key={id} className='bg-white flex flex-col items-center min-h-[250px] rounded-lg text-black font-sens font-bold'>
                             <img className='h-25 mt-4 w-25 rounded-lg' src= {thumbnail} alt= {title} />
                     <h2 className='text-center font-black text-black'>{title}</h2>
                             <h2>{price}</h2>
@@ -66,7 +87,7 @@ const Home = () => {
          </div>
 
 
-        {/* 2nd section */}
+    
 
         <div className=' min-h-[80vh] dark:bg-black text-black dark:text-white '>
                 <div>
@@ -74,13 +95,13 @@ const Home = () => {
                <div className="mt-2.5 h-1 w-[20vw] ml-[40vw] rounded-full text-center bg-gradient-to-r from-purple-500 to-fuchsia-500"> </div>
                 </div>
                   
-                  {/* API CARD SECTIONS */}
+              
 
                   <div className='grid grid-cols-1 pt-8 sm:grid-cols-2 gap-5 md:grid-cols-3 mx-8 lg:grid-cols-4'>
                       {
                         array.slice(177,181).map(({id , title , thumbnail , description , price , category , rating}) => {
                           return (
-                          <div className='bg-white flex flex-col items-center min-h-[250px] rounded-lg text-black font-sens font-bold'>
+                          <div key={id} className='bg-white flex flex-col items-center min-h-[250px] rounded-lg text-black font-sens font-bold'>
                             <img className='h-25 mt-4 w-25 rounded-lg' src= {thumbnail} alt= {title} />
                     <h2 className='text-center font-black text-black'>{title}</h2>
                             <h2>{price}</h2>
@@ -92,7 +113,8 @@ const Home = () => {
                   </div>
 
          </div>
-      
+         </div>
+}
 
       </div>
   )

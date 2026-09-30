@@ -1,12 +1,14 @@
 
-import React, { createContext, useState } from 'react'
+import React, { createContext, useEffect, useState } from 'react'
 import { toast } from 'sonner';
  
 
 export const CartContext = createContext();
 
 const CartProvider = ({children}) => {
-    const [Cart, setCart] = useState([]);
+    const [Cart, setCart] = useState(() => {
+        return JSON.parse(localStorage.getItem("Cart")) || [];
+    });
     const handleCart = (product) => {
 
   const ExistingProduct = Cart.find((item) => {
@@ -23,6 +25,10 @@ const CartProvider = ({children}) => {
   toast.success("Item Added Successfully");
   }
 }
+
+useEffect (() => {
+  localStorage.setItem("Cart",JSON.stringify(Cart));
+} , [Cart])
 
  const AddQuantity = (id) => {
   setCart(

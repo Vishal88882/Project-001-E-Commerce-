@@ -94,7 +94,7 @@ useEffect(() => {
           {stock}
         </span>
       </p>
-      <button onClick={() => {handleCart({id , price , title , description , rating , category , thumbnail})}} className="mt-3 dark:bg-red-600 dark:text-white dark:hover:bg-red-800 w-fit px-7 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition">
+      <button onClick={() => {handleCart({id:Number(id) , price , title , description , rating , category , thumbnail})}} className="mt-3 dark:bg-red-600 dark:text-white dark:hover:bg-red-800 w-fit px-7 py-3 bg-black text-white rounded-lg hover:bg-gray-800 transition">
         Add To Cart
       </button>
     </div>

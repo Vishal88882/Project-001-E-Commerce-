@@ -26,8 +26,6 @@ const Products = () => {
   }
   finally {
     setLoading(false);
-    setError(false);
-
   }
   }
   useEffect(() => {
@@ -61,11 +59,12 @@ const Products = () => {
 )}
        {
         Error && <div className='min-h-screen text-black font-serif flex justify-center items-center '> 
-          <h1 className="text-red font-4xl ">API PROBLEM 404</h1>
+          <h1 className="text-red-600 text-4xl font-black">API PROBLEM 404</h1>
         </div>
       }
       <div>
-        <SearchFilter Sort = {Sort} setSort = {setSort} Categories = {Categories} Input = {Input} setInput = {setInput} Category = {Category} setCategory = {setCategory}  />
+        { !Loading && !Error &&
+        <SearchFilter Sort = {Sort} setSort = {setSort} Categories = {Categories} Input = {Input} setInput = {setInput} Category = {Category} setCategory = {setCategory}  /> }
       </div>
         {
         ! Loading && !Error &&  <div className='min-h-screen text-black font-serif grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mx-6 my-4 gap-4 '> 
