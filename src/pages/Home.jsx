@@ -39,9 +39,9 @@ useEffect(() => {
       <div className='min-h-[80vh] w-full text-black dark:text-white' id="Home-Container">
      <div
   className="
-    min-h-screen flex justify-center items-center flex-col md:flex-row flex-wrap py-8
+    min-h-screen flex justify-center items-center flex-col md:flex-row py-8
     bg-[radial-gradient(circle_at_top_right,_#e9d5ff_0%,_transparent_30%),linear-gradient(135deg,_#ffffff_0%,_#faf5ff_50%,_#f3e8ff_100%)] dark:bg-zinc-900 dark:bg-none">
-      <div className='flex items-center flex-col pt-16 min-h-100 w-[50vw]'>
+      <div className='flex items-center flex-col  pt-16 min-h-100 w-[50vw]'>
        <h2 className='font-black font-mono'>New Arrival Only</h2>
         <h1 className='font-black text-6xl text-center'>New ⭐ Collections For Everyone</h1>
        <Link to = "/products"> <button className='bg-red-600 mt-6 rounded-lg text-white active:bg-red-800 font-bold  px-6 py-2'>Latest Collection </button> </Link>

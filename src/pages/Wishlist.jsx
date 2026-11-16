@@ -13,7 +13,7 @@ const Wishlist = () => {
 
   return (
 
-    <div className="min-h-screen w-full bg-white dark:bg-black dark:text-white px-5 py-10">
+    <div className="min-h-screen w-full dark:bg-black dark:text-white px-5 py-10">
 
       {wishlist.length === 0 ? (
 

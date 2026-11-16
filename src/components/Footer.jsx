@@ -19,20 +19,20 @@ const Footer = () => {
     <div>
       <h3 className="font-semibold text-lg mb-3">Quick Links</h3>
       <ul className="space-y-2 text-gray-400">
-        <Link to = "/" ><li>Home</li></Link>
-        <Link to = "/products" ><li>Products</li></Link>
-        <Link to = "/about" ><li>About</li></Link>
-        <Link to = "/contact" ><li>Contact</li></Link>
+         <li><Link to = "/" > Home </Link></li>
+         <li><Link to = "/products" > Products </Link></li>
+         <li><Link to = "/about" > About </Link></li>
+         <li><Link to = "/contact" > Contact-us </Link></li>
+         
       </ul>
     </div>
 
     <div>
       <h3 className="font-semibold text-lg mb-3">Customer Service</h3>
       <ul className="space-y-2 text-gray-400">
-        <li>Help Center</li>
-        <li>Shipping</li>
-        <li>Returns</li>
-        <li>Privacy Policy</li>
+        <li><Link to = "/helpcenter">Help-Center</Link></li>
+        <li><Link to = "/returns">Returns</Link></li>
+        <li><Link to = "/shippingdetails">Shipping-Information</Link></li>
       </ul>
     </div>
 

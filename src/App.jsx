@@ -11,6 +11,9 @@ import NotFound from './pages/NotFound'
 import ProductsDetails from './pages/ProductsDetails'
 import { Toaster } from 'sonner'
 import Wishlist from './pages/Wishlist'
+import Help from './pages/Help'
+import Return from './pages/Return'
+import ShippingDetails from './pages/ShippingDetails'
 
 
 const App = () => {
@@ -32,6 +35,9 @@ const App = () => {
          <Route path = "/products/:id" element = {<ProductsDetails />} />
          <Route path = "/wishlist" element =  {<Wishlist />} />
          <Route path = "*" element = {<NotFound />} />
+         <Route path = "/helpcenter" element = {<Help />} />
+         <Route path = "/returns" element = {<Return />} />
+         <Route path = "/shippingdetails" element = {<ShippingDetails />} />
        </Routes>
        <Footer />
     </div>

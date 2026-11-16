@@ -4,8 +4,6 @@ import { CartContext } from "../context/CartContext";
 import { Link } from "react-router-dom";
 import { ThemeContext } from '../context/ThemeContext';
 
- 
-
 const CartPage = () => {
  const {Cart , AddQuantity , RemoveQuantity , RemoveProduct} = useContext(CartContext);
 const {theme} = useContext(ThemeContext);
