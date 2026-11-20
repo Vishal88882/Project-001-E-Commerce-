@@ -15,7 +15,6 @@ import Help from './pages/Help'
 import Return from './pages/Return'
 import ShippingDetails from './pages/ShippingDetails'
 
-// this is a e commerce app
 const App = () => {
   return (
     <div className='bg-gray-200  min-h-screen w-full mt-0 ml-0 text-red-500 dark:bg-black dark:text-white' id="Main-Container">
