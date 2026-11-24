@@ -47,14 +47,15 @@ app.post('/api/profile', async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
     const newProfile = await Profile.create({
       username,
-      password,
+      password: hashedPassword,
       email,
       phone
     });
+
     res.status(201).json({
       success: true,
       data: newProfile,
-      hashedPassword
+      hashed_Password: hashedPassword
     })
 
   }
@@ -66,14 +67,29 @@ app.post('/api/profile', async (req, res) => {
   }
 })
 
-app.post('api.login', async (req, res) =>){
-  const { username, password } = req.body;
-  const ismatch = await bycrpt.compare(password, Profile.password)
+app.post('/api/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
 
-  if (!ismatch) {
-    res.jason({ message: "error" })
+    const user = await Profile.findOne({ username });
+    const ismatch = await bcrypt.compare(password, user.password)
+
+    console.log("Entered password:", password);
+    console.log("Stored password:", user.password);
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid username or password!" });
+    }
+    if (!ismatch) {
+      return res.status(400).json({ message: "Invalid username or password" })
+    }
+
+    res.status(200).json({ message: "login successful" })
+  } catch (error) {
+    return res.status(500).json({ message: "login failed" })
   }
-}
+
+})
 
 
 app.get('/api/status', (req, res) => {
