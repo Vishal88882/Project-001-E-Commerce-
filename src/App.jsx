@@ -1,10 +1,13 @@
 
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
+import signup from './pages/Signup'
+import login from './pages/Login'
 import Products from './pages/Products'
 import About from './pages/About'
 import Contact from './pages/Contact'
 import Cart from './pages/Cart'
+import Profile from './pages/Profile'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import NotFound from './pages/NotFound'
@@ -27,10 +30,13 @@ const App = () => {
       />
        <Routes>
          <Route path = "/" element = {<Home />} />
+         <Route path = "/signup" element = {<Signup />} />
+         <Route path = "/login" element = {<Login />} />
          <Route path = "/products" element = {<Products />} />
          <Route path = "/about" element = {< About />} />
          <Route path = "/contact" element = {<Contact />} />
          <Route path = "/cart" element = {<Cart />} />
+         <Route path = "/profile" element = {<Profile />} />
          <Route path = "/products/:id" element = {<ProductsDetails />} />
          <Route path = "/wishlist" element =  {<Wishlist />} />
          <Route path = "*" element = {<NotFound />} />
