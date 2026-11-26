@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { User, Mail, Phone, MapPin, Edit3, Save, Lock, Eye, EyeOff, LogOut } from 'lucide-react'
+import { User, Mail, Phone, MapPin, Edit3, Save, Lock, Eye, EyeOff, LogOut, Trash } from 'lucide-react'
 
 const Profile = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -118,10 +118,53 @@ const Profile = () => {
     }
   }
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setIsLoggedIn(false)
     setIsEditing(false)
     setAuthMode('login')
+
+  }
+
+  const handleDeleteUser = async (e) => {
+
+    setError('');
+    if (!isLoggedIn) {
+      setError("Loggin first");
+      return;
+    }
+    try {
+      setLoading(true)
+      const response = await fetch('http://localhost:5000/api/delete_profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          email: profileData.email,
+          name: profileData.name,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError("Error occured")
+        return;
+      }
+
+    } catch (err) {
+      setError(err.message)
+    } finally {
+
+      setIsLoggedIn(false)
+      setIsEditing(false)
+      setAuthMode('login')
+      setProfileData(null)
+      setIsLoggedIn(false)
+      setEmail('')
+      setPasswords('')
+    }
   }
 
   const handleProfileChange = (e) => {
@@ -132,8 +175,44 @@ const Profile = () => {
     setPasswords({ ...passwords, [e.target.name]: e.target.value })
   }
 
-  const handleSaveProfile = (e) => {
+  const handleSaveProfile = async (e) => {
     e.preventDefault()
+
+    setError('');
+    if (!isLoggedIn) {
+      setError("Loggin first");
+      return;
+    }
+    try {
+      setLoading(true)
+      const response = await fetch('http://localhost:5000/api/update_profile', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: profileData.name,
+          email: profileData.email,
+          phone: profileData.phone,
+          location: profileData.location
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError("Error occured")
+        return;
+      }
+
+      setIsLoggedIn(true)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
+
     setIsEditing(false)
   }
 
@@ -209,7 +288,7 @@ const Profile = () => {
                   <input
                     type="email"
                     required
-                    placeholder="rajyadav12556@gmail.com"
+                    placeholder="Enter Your Email"
                     value={loginData.email}
                     onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                     className="w-full bg-transparent outline-none"
@@ -270,7 +349,7 @@ const Profile = () => {
                   <input
                     type="text"
                     required
-                    placeholder="Raj Yadav"
+                    placeholder="Enter your name"
                     value={signupData.name}
                     onChange={(e) => setSignupData({ ...signupData, name: e.target.value })}
                     className="w-full bg-transparent outline-none"
@@ -285,7 +364,7 @@ const Profile = () => {
                   <input
                     type="email"
                     required
-                    placeholder="rajyadav12556@gmail.com"
+                    placeholder="Enter your Email"
                     value={signupData.email}
                     onChange={(e) => setSignupData({ ...signupData, email: e.target.value })}
                     className="w-full bg-transparent outline-none"
@@ -432,6 +511,14 @@ const Profile = () => {
             >
               <LogOut className="w-4 h-4" />
               Logout
+            </button>
+
+            <button
+              onClick={handleDeleteUser}
+              className="mt-3 w-full py-2.5 rounded-lg bg-zinc-200 dark:bg-zinc-800 font-bold hover:bg-red-600 hover:text-white transition flex items-center justify-center gap-2"
+            >
+              <Trash className="w-4 h-4" />
+              Delete Profile
             </button>
           </div>
 

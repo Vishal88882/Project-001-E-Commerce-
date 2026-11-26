@@ -116,7 +116,7 @@ app.post('/api/change_password', async (req, res) => {
     if (!user) {
       return res.status(401).json({ message: "Invalid emial or password!" });
     }
-    
+
     const ismatch = await bcrypt.compare(currentPassword, user.password)
 
     if (!ismatch) {
@@ -136,9 +136,54 @@ app.post('/api/change_password', async (req, res) => {
       message: "password changed",
     })
 
+  } catch (error) {
+    return res.status(500).json({ message: "update failed" })
+  }
+
+})
+
+
+
+app.post('/api/update_profile', async (req, res) => {
+  try {
+    const { name, email, phone, location } = req.body;
+
+    const user = await Profile.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({ message: "Invalid user" });
+    }
+
+    await Profile.updateMany({ email }, { $set: { name, email, phone, location } })
+
+    res.status(200).json({
+      message: "Profile updated successfull",
+    })
 
   } catch (error) {
     return res.status(500).json({ message: "update failed" })
+  }
+
+})
+
+
+app.post('/api/delete_profile', async (req, res) => {
+  try {
+    const { name, email} = req.body;
+
+    const user = await Profile.findOne({ email });
+
+    if (!user) {
+      return res.status(401).json({ message: "User didn't found" });
+    }
+
+    await Profile.deleteOne({ email })
+    res.status(200).json({
+      message: "User deleted successfully",
+    })
+
+  } catch (error) {
+    return res.status(500).json({ message: "logout failed" })
   }
 
 })
