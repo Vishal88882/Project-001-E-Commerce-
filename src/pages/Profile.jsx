@@ -6,6 +6,9 @@ const Profile = () => {
   const [authMode, setAuthMode] = useState('login')
   const [showPassword, setShowPassword] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
+
 
   const [loginData, setLoginData] = useState({
     email: '',
@@ -22,9 +25,9 @@ const Profile = () => {
   })
 
   const [profileData, setProfileData] = useState({
-    name: 'RAJ YADAV',
-    email: 'rajyadav12556@gmail.com',
-    phone: '8512894608',
+    name: 'Jhon Doe',
+    email: 'jhondoe@gmail.com',
+    phone: '1234567890',
     location: 'Delhi, India',
     bio: 'Building clean and functional web applications.',
   })
@@ -35,21 +38,84 @@ const Profile = () => {
     confirmPassword: '',
   })
 
-  const handleLoginSubmit = (e) => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault()
-    setIsLoggedIn(true)
+    setError('');
+
+    try {
+      setLoading(true)
+      const response = await fetch('http://localhost:5000/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          email: loginData.email,
+          password: loginData.password,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError("Error occured")
+        return;
+      }
+      if (data.user) {
+        setProfileData((prev) => ({
+          ...prev,
+          name: data.user.name || prev.name,
+          email: data.user.email || prev.email,
+          phone: data.user.phone || prev.phone,
+          location: data.user.location || prev.location,
+        }))
+      }
+
+      setIsLoggedIn(true)
+    } catch (err) {
+      setError(err.message)
+    }
   }
 
-  const handleSignupSubmit = (e) => {
+
+  const handleSignupSubmit = async (e) => {
     e.preventDefault()
-    setProfileData((prev) => ({
-      ...prev,
-      name: signupData.name || prev.name,
-      email: signupData.email || prev.email,
-      phone: signupData.phone || prev.phone,
-      location: signupData.location || prev.location,
-    }))
-    setIsLoggedIn(true)
+    setError('');
+    if (signupData.password != signupData.confirmPassword) {
+      setError("password doesn't match");
+      return;
+    }
+    try {
+      setLoading(true)
+      const response = await fetch('http://localhost:5000/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: signupData.name,
+          email: signupData.email,
+          phone: signupData.phone,
+          location: signupData.location,
+          password: signupData.password,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError("Error occured")
+        return;
+      }
+
+      setIsLoggedIn(true)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleLogout = () => {
@@ -71,10 +137,44 @@ const Profile = () => {
     setIsEditing(false)
   }
 
-  const handleUpdatePassword = (e) => {
+  const handleUpdatePassword = async (e) => {
     e.preventDefault()
+    setError('');
+    if (!isLoggedIn) {
+      setError("Loggin first");
+      return;
+    }
+    try {
+      setLoading(true)
+      const response = await fetch('http://localhost:5000/api/change_password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          email: profileData.email,
+          currentPassword: passwords.currentPassword,
+          newPassword: passwords.newPassword,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        setError("Error occured")
+        return;
+      }
+
+      setIsLoggedIn(true)
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setLoading(false)
+    }
     setPasswords({ currentPassword: '', newPassword: '', confirmPassword: '' })
   }
+
 
   if (!isLoggedIn) {
     return (
@@ -96,11 +196,13 @@ const Profile = () => {
           </div>
 
           {authMode === 'login' ? (
+
             <form
               onSubmit={handleLoginSubmit}
               className="rounded-2xl p-8 bg-zinc-100 dark:bg-zinc-900 shadow-lg space-y-5"
             >
               <div>
+                {error && <p className="text-red-600 text-sm font-bold text-center">{error}</p>}
                 <label className="text-sm text-gray-500 block mb-1">Email Address</label>
                 <div className="flex items-center gap-3 p-3 rounded-lg border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800">
                   <Mail className="w-5 h-5 text-red-600 shrink-0" />
@@ -161,6 +263,7 @@ const Profile = () => {
               className="rounded-2xl p-8 bg-zinc-100 dark:bg-zinc-900 shadow-lg space-y-5"
             >
               <div>
+                {error && <p className="text-red-600 text-sm font-bold text-center">{error}</p>}
                 <label className="text-sm text-gray-500 block mb-1">Full Name</label>
                 <div className="flex items-center gap-3 p-3 rounded-lg border border-gray-300 dark:border-zinc-700 bg-white dark:bg-zinc-800">
                   <User className="w-5 h-5 text-red-600 shrink-0" />
